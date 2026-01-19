@@ -166,7 +166,6 @@ While this is a personal portfolio, I'm open to suggestions! If you have ideas f
 
 **Ulageshwaran**
 
-- Portfolio: [your-portfolio-url.com](https://your-portfolio-url.com)
 - Email: ulageshofficial@gmail.com
 - LinkedIn: [linkedin.com/in/ulageshwaran](https://linkedin.com/in/ulageshwaran)
 - GitHub: [@ulageshwaran](https://github.com/ulageshwaran)
