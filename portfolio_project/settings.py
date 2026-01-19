@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rhh+v1(76w9t-9w(w)i14g#-$t2i6d_edk$a@)gdo4zj@+#1uj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["ulageshwaran-portfolio.onrender.com"]
 
 
 # Application definition
@@ -118,10 +118,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# Your static files directories
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'portfolio/static'),
-]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
