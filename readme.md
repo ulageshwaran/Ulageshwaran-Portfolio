@@ -2,7 +2,7 @@
 
 <div align="center">
   
-  ![Portfolio Banner](https://raw.githubusercontent.com/ulageshwaran/Developer-Portfolio/main/media/projects/portfolio.png)
+  ![Portfolio Banner](media/projects/portfolio.png)
   
   **A space-themed interactive portfolio showcasing my journey as a Full-Stack Web Developer**
   
@@ -154,9 +154,6 @@ While this is a personal portfolio, I'm open to suggestions! If you have ideas f
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
@@ -169,6 +166,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Ulageshwaran**
 
+- Portfolio: [your-portfolio-url.com](https://your-portfolio-url.com)
 - Email: ulageshofficial@gmail.com
 - LinkedIn: [linkedin.com/in/ulageshwaran](https://linkedin.com/in/ulageshwaran)
 - GitHub: [@ulageshwaran](https://github.com/ulageshwaran)
