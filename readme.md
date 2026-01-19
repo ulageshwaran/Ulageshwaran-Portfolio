@@ -2,7 +2,7 @@
 
 <div align="center">
   
-  ![Portfolio Banner](media/projects/portfolio.png)
+  ![Portfolio Banner](media/projects/portfolio.png)(https://ulageshwaran-portfolio.onrender.com)
   
   **A space-themed interactive portfolio showcasing my journey as a Full-Stack Web Developer**
   
@@ -166,7 +166,7 @@ While this is a personal portfolio, I'm open to suggestions! If you have ideas f
 
 **Ulageshwaran**
 
-- Portfolio: [your-portfolio-url.com](https://your-portfolio-url.com)
+- Portfolio: [ulageshwaran-portfolio.onrender.com](https://ulageshwaran-portfolio.onrender.com/)
 - Email: ulageshofficial@gmail.com
 - LinkedIn: [linkedin.com/in/ulageshwaran](https://linkedin.com/in/ulageshwaran)
 - GitHub: [@ulageshwaran](https://github.com/ulageshwaran)
