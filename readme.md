@@ -2,7 +2,7 @@
 
 <div align="center">
   
-  ![Portfolio Banner](https://raw.githubusercontent.com/ulageshwaran/Developer-Portfolio/main/media/projects/portfolio.png)
+  ![Portfolio Banner](media/projects/portfolio.png)
   
   **A space-themed interactive portfolio showcasing my journey as a Full-Stack Web Developer**
   
