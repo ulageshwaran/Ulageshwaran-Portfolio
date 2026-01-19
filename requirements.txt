@@ -1,3 +1,5 @@
 Django
 Pillow
 whitenoise
+django-cloudinary-storage
+cloudinary
