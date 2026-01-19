@@ -154,9 +154,6 @@ While this is a personal portfolio, I'm open to suggestions! If you have ideas f
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
