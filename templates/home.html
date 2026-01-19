@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<style>
+    /* Hero Specific Styles */
+    .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        /* overflow: hidden; Removed to avoid clipping fixed elements if any, though fixed usually ignores this. */
+    }
+
+    #constellationCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        /* Behind everything */
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    .avatar {
+        height: 350px;
+        width: auto;
+        border-radius: 0;
+        border: none;
+        margin-bottom: 1rem;
+        image-rendering: pixelated;
+        /* Keeps pixel art crisp */
+        mix-blend-mode: lighten;
+        /* Helps blend black background if present */
+    }
+
+    .hero h1 {
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        margin-bottom: 0.5rem;
+        letter-spacing: -2px;
+        text-transform: uppercase;
+    }
+
+    .hero h2 {
+        font-family: var(--font-mono);
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        color: var(--text-secondary);
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Project Cards */
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .project-card {
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border-color: var(--accent-color);
+    }
+
+    .project-img {
+        height: 200px;
+        background: #2a3b4c;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .project-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .project-card:hover .project-img img {
+        transform: scale(1.1);
+    }
+
+    .project-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .project-tags {
+        margin-top: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding-top: 1rem;
+    }
+
+    .tag {
+        background: rgba(56, 189, 248, 0.1);
+        color: var(--accent-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-family: var(--font-mono);
+    }
+
+    /* Skills */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .skill-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+    }
+
+    .skill-item::before {
+        content: '▹';
+        color: var(--accent-color);
+        margin-right: 0.5rem;
+    }
+
+    /* Timeline - Education & Experience */
+    .timeline-item {
+        border-left: 2px solid var(--accent-color);
+        padding-left: 2rem;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: -9px;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        background: var(--bg-color);
+        border: 2px solid var(--accent-color);
+        border-radius: 50%;
+    }
+
+    /* Cards Grid for Certs/Achievements */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .info-card {
+        background: var(--bg-secondary);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Contact Form */
+    .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: var(--bg-secondary);
+        padding: 3rem;
+        border-radius: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 1rem;
+        background: var(--bg-color);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: #fff;
+        font-family: var(--font-mono);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--accent-color);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 150px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<canvas id="constellationCanvas"></canvas>
+<section id="hero" class="hero">
+    <div class="hero-content fade-in">
+        <img src="{% static 'images/avatar.png' %}" alt="Ulagesh" class="avatar">
+        <h1>ULAGESHWARAN</h1>
+        <h2 class="text-mono">Full-Stack Web Developer | Python & Django Specialist</h2>
+        <p style="max-width: 700px; margin: 2rem auto; color: var(--text-secondary); line-height: 1.8;">
+            I'm a passionate software developer with expertise in Python and Django, dedicated to building scalable and
+            user-friendly web applications. Currently pursuing my M.Sc in Information Technology at SRM IST, I love
+            transforming ideas into functional, elegant solutions that make a difference.
+        </p>
+        <div style="margin-top: 2rem;">
+            <a href="#projects" class="btn" style="margin-right: 1rem;">View My Projects</a>
+            <a href="#contact" class="btn"
+                style="border-color: var(--text-secondary); color: var(--text-secondary);">Contact Me</a>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="container">
+    <h2 class="text-center fade-in">About Me</h2>
+    <div class="fade-in" style="max-width: 900px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">
+                Aspiring Software Development Engineer with strong skills in Python, Django, JavaScript, and Git. I'm
+                passionate about building scalable, user-friendly applications and solving real-world problems through
+                technology. Eager to contribute to innovative projects, continuously learn new technologies, and grow as
+                a full-stack developer.
+            </p>
+        </div>
+
+        <h3 class="text-mono text-accent" style="margin-top: 3rem; margin-bottom: 1.5rem; text-align: center;">Technical
+            Arsenal</h3>
+        <div class="skills-grid">
+            <div>
+                <h4 style="margin-bottom: 1rem; border-bottom: 1px solid var(--accent-color); display: inline-block;">
+                    Frontend</h4>
+                {% for skill in skills.frontend %}
+                <div class="skill-item">{{ skill.name }}</div>
+                {% endfor %}
+            </div>
+            <div>
+                <h4 style="margin-bottom: 1rem; border-bottom: 1px solid var(--accent-color); display: inline-block;">
+                    Backend</h4>
+                {% for skill in skills.backend %}
+                <div class="skill-item">{{ skill.name }}</div>
+                {% endfor %}
+            </div>
+            <div>
+                <h4 style="margin-bottom: 1rem; border-bottom: 1px solid var(--accent-color); display: inline-block;">
+                    Tools & Platforms</h4>
+                {% for skill in skills.tools %}
+                <div class="skill-item">{{ skill.name }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section id="education" class="container">
+    <h2 class="text-center fade-in">Education</h2>
+    <div class="fade-in" style="max-width: 800px; margin: 0 auto;">
+        {% for edu in educations %}
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <h3 style="margin-bottom: 0.5rem;">{{ edu.degree }}</h3>
+            <h4 style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">{{ edu.institution }}</h4>
+            <div class="text-mono" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                {{ edu.duration }} | {{ edu.status }}
+            </div>
+            <p style="color: var(--text-primary);">{{ edu.score }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="container">
+    <h2 class="text-center fade-in">Selected Projects</h2>
+    <div class="projects-grid fade-in">
+        {% for project in projects %}
+        <div class="project-card" onclick="window.open('{{ project.link }}', '_blank')">
+            <div class="project-img">
+                {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                {% else %}
+                <!-- Placeholder text/icon if no image -->
+                <div
+                    style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.1); font-size: 3rem; background: #1e293b;">
+                    &lt;/&gt;
+                </div>
+                {% endif %}
+            </div>
+            <div class="project-content">
+                <h3>{{ project.title }}</h3>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                    {{ project.description|truncatewords:25 }}
+                </p>
+                <div class="project-tags">
+                    {% for tag in project.tags.all %}
+                    <span class="tag">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Certifications & Achievements -->
+<section id="achievements" class="container">
+    <div class="fade-in">
+        <h2 class="text-center" style="margin-bottom: 3rem;">Credentials</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+
+            <!-- Certifications -->
+            <div>
+                <h3 class="text-accent text-mono" style="margin-bottom: 1.5rem;">Certifications</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    {% for cert in certifications %}
+                    <div class="info-card">
+                        <h4>{{ cert.title }}</h4>
+                        <p style="color: var(--accent-color); font-size: 0.9rem;">{{ cert.issuer }}</p>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                            {{ cert.status }} {% if cert.date %}| {{ cert.date|date:"M Y" }}{% endif %}
+                        </p>
+                        {% if cert.image %}
+                        <a href="{{ cert.image.url }}" target="_blank"
+                            style="display: inline-block; margin-top: 0.5rem; font-size: 0.8rem; color: var(--accent-color); text-decoration: underline;">View
+                            Certificate</a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div>
+                <h3 class="text-accent text-mono" style="margin-bottom: 1.5rem;">Achievements</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    {% for ach in achievements %}
+                    <div class="info-card">
+                        <h4>{{ ach.event }}</h4>
+                        <p style="color: var(--accent-color); font-size: 0.9rem;">{{ ach.position }}</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">{{ ach.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="container">
+    <h2 class="text-center fade-in">Get In Touch</h2>
+    <div class="fade-in" style="text-align: center; margin-top: 3rem; margin-bottom: 5rem;">
+        <a href="mailto:ulageshofficial@gmail.com" class="btn"
+            style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1.2rem; padding: 1rem 2rem;">
+            <span style="font-size: 1.5rem;">✉</span> Email Me Directly <span style="font-size: 1.5rem;">→</span>
+        </a>
+        <p class="text-mono" style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+            Based in Chennai, India
+        </p>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/constellation.js' %}"></script>
+{% endblock %}

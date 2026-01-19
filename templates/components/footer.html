@@ -1,0 +1,30 @@
+{% load static %}
+<footer class="footer">
+    <div class="container text-center">
+        <h3>Let's build something amazing together!</h3>
+        <p style="margin: 1rem 0; color: var(--text-secondary);">&copy; {% now "Y" %} Ulageshwaran E. All rights
+            reserved.</p>
+
+        <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 2rem;">
+            <a href="{% static 'assets/ulageshwaran_resume.pdf' %}" target="_blank" class="text-mono"
+                style="font-size: 0.8rem;">Resume</a> <!-- Link to Resume needs to be real -->
+            <a href="https://github.com/ulageshwaran" class="text-mono" style="font-size: 0.8rem;">GitHub</a>
+            <a href="https://www.linkedin.com/in/ulageshwaran-e" class="text-mono"
+                style="font-size: 0.8rem;">LinkedIn</a>
+            <a href="mailto:ulageshofficial@gmail.com" class="text-mono" style="font-size: 0.8rem;">Email</a>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        padding: 4rem 0;
+        background: var(--bg-secondary);
+        margin-top: 4rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer h3 {
+        font-size: 1.5rem;
+    }
+</style>
