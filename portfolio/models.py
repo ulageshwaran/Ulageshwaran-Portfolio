@@ -10,6 +10,7 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     image = models.ImageField(upload_to='static/images/')
+    image_url = models.URLField(blank=True, help_text="URL of the image if hosted externally")
     link = models.URLField(blank=True)
     github_link = models.URLField(blank=True)
     tags = models.ManyToManyField(Tag)
