@@ -5,12 +5,15 @@
 <style>
     /* Hero Specific Styles */
     .hero {
-        height: 100vh;
+        min-height: 100vh;
+        /* Changed from height to min-height for mobile */
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        /* overflow: hidden; Removed to avoid clipping fixed elements if any, though fixed usually ignores this. */
+        padding-top: 80px;
+        /* Add padding for fixed navbar */
+        padding-bottom: 3rem;
     }
 
     #constellationCanvas {
@@ -29,6 +32,7 @@
         z-index: 10;
         text-align: center;
         padding: 0 1rem;
+        width: 100%;
     }
 
     .avatar {
@@ -41,6 +45,19 @@
         /* Keeps pixel art crisp */
         mix-blend-mode: lighten;
         /* Helps blend black background if present */
+        max-width: 80vw;
+        /* Ensure it doesn't overflow mobile width */
+    }
+
+    @media (max-width: 768px) {
+        .avatar {
+            height: 250px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            /* Fallback */
+        }
     }
 
     .hero h1 {
@@ -61,9 +78,22 @@
     /* Project Cards */
     .projects-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        /* Reduced minmax for smaller phones */
         gap: 2rem;
         margin-top: 3rem;
+    }
+
+    @media (max-width: 600px) {
+        .projects-grid {
+            gap: 1.5rem;
+            grid-template-columns: 1fr;
+            /* Stack on small screens */
+        }
+
+        .skills-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     .project-card {
@@ -188,6 +218,20 @@
         border-radius: 12px;
     }
 
+    @media (max-width: 768px) {
+        .contact-form {
+            padding: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+    }
+
     .form-group {
         margin-bottom: 1.5rem;
     }
@@ -277,23 +321,6 @@
     </div>
 </section>
 
-<!-- Education Section -->
-<section id="education" class="container">
-    <h2 class="text-center fade-in">Education</h2>
-    <div class="fade-in" style="max-width: 800px; margin: 0 auto;">
-        {% for edu in educations %}
-        <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <h3 style="margin-bottom: 0.5rem;">{{ edu.degree }}</h3>
-            <h4 style="font-size: 1.1rem; color: var(--accent-color); margin-bottom: 0.5rem;">{{ edu.institution }}</h4>
-            <div class="text-mono" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                {{ edu.duration }} | {{ edu.status }}
-            </div>
-            <p style="color: var(--text-primary);">{{ edu.score }}</p>
-        </div>
-        {% endfor %}
-    </div>
-</section>
 
 <!-- Projects Section -->
 <section id="projects" class="container">

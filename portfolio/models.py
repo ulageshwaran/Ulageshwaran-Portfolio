@@ -9,7 +9,7 @@ class Tag(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='projects/')
+    image = models.ImageField(upload_to='static/images/')
     link = models.URLField(blank=True)
     github_link = models.URLField(blank=True)
     tags = models.ManyToManyField(Tag)
@@ -47,15 +47,6 @@ class Experience(models.Model):
     class Meta:
         ordering = ['-start_date']
 
-class Education(models.Model):
-    institution = models.CharField(max_length=200)
-    degree = models.CharField(max_length=200)
-    duration = models.CharField(max_length=50) # e.g. "2024 - 2026"
-    score = models.CharField(max_length=50) # CGPA or Percentage
-    status = models.CharField(max_length=50, blank=True) # e.g. "Currently Pursuing"
-    
-    def __str__(self):
-        return f"{self.degree} at {self.institution}"
 
 class Certification(models.Model):
     title = models.CharField(max_length=200)
@@ -78,12 +69,3 @@ class Achievement(models.Model):
     def __str__(self):
         return f"{self.position} at {self.event}"
 
-class ContactMessage(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
-    subject = models.CharField(max_length=200)
-    message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Message from {self.name}"
