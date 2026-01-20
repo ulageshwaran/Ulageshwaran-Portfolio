@@ -331,6 +331,8 @@
             <div class="project-img">
                 {% if project.image %}
                 <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                {% elif project.image_url %}
+                <img src="{{ project.image_url }}" alt="{{ project.title }}">
                 {% else %}
                 <!-- Placeholder text/icon if no image -->
                 <div
